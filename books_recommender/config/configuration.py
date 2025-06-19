@@ -32,7 +32,7 @@ class AppConfiguration:
         try:
             data_ingestion_config = self.config_info['data_ingestion_config']
             artifacts_dir = self.config_info['artifacts_config']['artifacts_dir']
-            dataset_dir = data_ingestion_config[dataset_dir]
+            dataset_dir = data_ingestion_config['dataset_dir']
 
             ingested_data_dir = os.path.join(artifacts_dir, dataset_dir, data_ingestion_config['ingested_dir'])
             raw_data_dir = os.path.join(artifacts_dir, dataset_dir, data_ingestion_config['raw_data_dir'])
