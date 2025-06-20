@@ -1,27 +1,29 @@
-# Use an official Python runtime as a parent image
-FROM python:3.9-slim
+# 1. Use a modern, supported, and secure Python version
+FROM python:3.9-slim-buster
 
-# Set the working directory in the container
-WORKDIR /app
-
-# Create a non-root user
-RUN addgroup --system app && adduser --system --group app
-
-# Copy the requirements file into the container at /app
-COPY requirements.txt .
-
-# Install any needed packages specified in requirements.txt
-# Use --no-cache-dir to reduce image size
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy the rest of the application's code to the container
-COPY . .
-
-# Switch to the non-root user
-USER app
-
-# Expose the port that Streamlit runs on
+# Expose the port streamlit will run on
 EXPOSE 8501
 
-# Command to run the Streamlit app
-ENTRYPOINT ["streamlit", "run", "app.py", "--server.address=0.0.0.0"]
+# Install system dependencies and then clean up the cache
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    software-properties-common \
+    git \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set the working directory
+WORKDIR /app
+
+# Copy dependency list and install them to leverage build caching
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the rest of the application code
+COPY . .
+
+# 2. Create a non-root user and switch to it for security
+RUN addgroup --system app && adduser --system --group app
+USER app
+
+# The command to run the app
+ENTRYPOINT ["streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]
