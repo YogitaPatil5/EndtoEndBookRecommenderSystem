@@ -24,4 +24,4 @@ USER app
 EXPOSE 8501
 
 # Command to run the Streamlit app
-ENTRYPOINT ["streamlit", "run", "app.py"]
+ENTRYPOINT ["streamlit", "run", "app.py", "--server.address=0.0.0.0"]

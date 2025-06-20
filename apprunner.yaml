@@ -1,0 +1,16 @@
+# This is the configuration file for AWS App Runner.
+# It tells App Runner how to build and run your container.
+version: 1.0
+
+# Specifies that we are using a Dockerfile for the build.
+build:
+  # The 'image' name is an internal reference used by App Runner during the build process.
+  # It does not affect your final service.
+  image: book-recommender-image
+
+# Specifies how to run the service.
+run:
+  # App Runner will use the ENTRYPOINT from our Dockerfile.
+  # We just need to tell it which port to listen on.
+  network:
+    port: 8501 
