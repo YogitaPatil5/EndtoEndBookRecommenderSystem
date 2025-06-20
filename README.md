@@ -102,6 +102,33 @@ docker run -p 8501:8501 book-recommender
 ```
 This will start the Streamlit application. You can access it in your browser at `http://localhost:8501`.
 
+## 🌐 Free Deployment on Streamlit Community Cloud
+
+You can deploy this app for free using [Streamlit Community Cloud](https://share.streamlit.io/). This is the easiest way to share your project with the world!
+
+### Steps to Deploy:
+
+1. **Push your code to a public GitHub repository.**
+   - Your project must be public for free hosting.
+
+2. **Go to [https://share.streamlit.io/](https://share.streamlit.io/)**
+   - Log in with your GitHub account.
+
+3. **Click "New app".**
+   - Select your repository and branch (usually `main`).
+   - Set the main file path to `app.py`.
+
+4. **Click "Deploy".**
+   - Streamlit will build and launch your app. This may take a minute the first time.
+
+5. **Get your free domain!**
+   - Your app will be live at a URL like `https://your-app-name.streamlit.app/`.
+   - Example: [https://bookrecommendersystemymp.streamlit.app/](https://bookrecommendersystemymp.streamlit.app/)
+
+**Note:**
+- Your app will sleep if inactive, but will wake up automatically on the next visit.
+- This is a great option for demos, portfolios, and sharing with others for free.
+
 ## ☁️ Deployment on AWS EC2
 
 This section guides you through deploying the application on a virtual server (EC2 instance) on Amazon Web Services.
