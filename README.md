@@ -102,6 +102,85 @@ docker run -p 8501:8501 book-recommender
 ```
 This will start the Streamlit application. You can access it in your browser at `http://localhost:8501`.
 
+## ☁️ Deployment on AWS EC2
+
+This section guides you through deploying the application on a virtual server (EC2 instance) on Amazon Web Services.
+
+### Step 1: Push Code to GitHub
+
+Ensure all your latest changes, especially the `Dockerfile`, are pushed to your GitHub repository.
+```bash
+git add .
+git commit -m "feat: Prepare for deployment"
+git push origin main
+```
+
+### Step 2: Launch an AWS EC2 Instance
+
+1.  **Navigate to EC2:** Log in to your AWS Console and go to the EC2 service.
+2.  **Launch Instance:** Click "Launch instances".
+3.  **Name:** Give your instance a name (e.g., `book-recommender-server`).
+4.  **Application and OS Images:** Select `Ubuntu` and ensure the `Ubuntu Server 22.04 LTS` version is chosen.
+5.  **Instance Type:** Select `t2.micro` (this is eligible for the AWS Free Tier).
+6.  **Key Pair (for login):** Create a new key pair. Name it, choose `RSA` and `.pem` format. Download the `.pem` file and keep it safe.
+7.  **Network Settings (Firewall):**
+    *   Click "Edit" next to Network settings.
+    *   You will see a rule for SSH (Port 22). Leave this as is.
+    *   Click **"Add security group rule"** and add the following rule:
+        *   **Type:** `Custom TCP`
+        *   **Port range:** `8501`
+        *   **Source type:** `Anywhere` (`0.0.0.0/0`)
+8.  **Launch:** Review the settings and click **"Launch instance"**.
+
+### Step 3: Connect to Your Server
+
+1.  In your EC2 Instances list, wait for the "Instance state" to become "Running".
+2.  Select the instance and click the **"Connect"** button.
+3.  Navigate to the **"SSH client"** tab and copy the example command. It will look like this: `ssh -i "your-key.pem" ubuntu@ec2-XX-XX-XX-XX.compute-1.amazonaws.com`
+4.  Open a terminal on your local machine, `cd` to where your `.pem` file is saved, and run the command.
+
+### Step 4: Set Up the Server and Run the App
+
+Once connected to the server via SSH, run these commands one-by-one.
+
+1.  **Update packages:**
+    ```bash
+    sudo apt-get update -y
+    ```
+2.  **Install Docker:**
+    ```bash
+    sudo apt-get install docker.io -y
+    ```
+3.  **Add `ubuntu` user to the `docker` group:**
+    ```bash
+    sudo usermod -aG docker ${USER}
+    ```
+    > **IMPORTANT:** You must now log out (`exit`) and log back in with the same `ssh` command for this change to apply.
+
+4.  **Clone your repository:**
+    ```bash
+    git clone https://github.com/YogitaPatil5/EndtoEndBookRecommenderSystem.git
+    ```
+5.  **Enter the project directory:**
+    ```bash
+    cd EndtoEndBookRecommenderSystem
+    ```
+6.  **Build the Docker image:**
+    ```bash
+    docker build -t book-recommender .
+    ```
+7.  **Run the application in a container:**
+    ```bash
+    docker run -d -p 8501:8501 book-recommender
+    ```
+
+### Step 5: Access Your Live Application
+
+1.  In the AWS EC2 Console, find the **"Public IPv4 address"** of your instance.
+2.  Open your web browser and go to `http://<Your-Public-IPv4-Address>:8501`.
+
+You should now see your live Book Recommender application!
+
 ## 📁 Project Structure
 
 The project follows a modular structure to ensure clarity and maintainability.
