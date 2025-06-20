@@ -25,7 +25,9 @@ class ModelTrainer:
             logging.info(f"Loaded book_pivot with shape: {book_pivot.shape}")
 
             # Training model
-            model = NearestNeighbors(algorithm='brute')
+            algorithm = self.model_trainer_config.model_algorithm
+            model = NearestNeighbors(algorithm=algorithm)
+            logging.info(f"Training model with algorithm: {algorithm}")
             model.fit(book_sparse)
             logging.info("Model training completed.")
 

@@ -1,9 +1,14 @@
-scikit-learn==1.7.0
+# Core data and machine learning libraries
 pandas==2.3.0
 numpy==1.26.4
+scikit-learn==1.7.0
+
+# For reading configuration files
 PyYAML==6.0.1
+
+# For the web application interface
 streamlit==1.35.0
-kagglehub 
-ipykernel
-pyyaml
+
+# For installing the local package
+# This line installs the 'books_recommender' directory as a package.
 -e .
